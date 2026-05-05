@@ -65,9 +65,17 @@
       </p>
     </section>
 
-    <section class="bg-zinc-900 border border-zinc-800 rounded p-4 opacity-60">
-      <h2 class="text-lg font-semibold mb-2">Per-event table <span class="text-xs text-zinc-500 font-mono">(Step 3)</span></h2>
-      <div class="h-40 skel">searchable + sortable · click row to expand</div>
+    <!-- Per-event table -->
+    <section class="bg-zinc-900 border border-zinc-800 rounded p-4">
+      <div class="flex items-baseline justify-between mb-2">
+        <h2 class="text-lg font-semibold">Per-event table</h2>
+        <span class="text-xs text-zinc-500 font-mono">searchable · sortable · click row to expand</span>
+      </div>
+      <div id="events-table"><div class="skel">loading events…</div></div>
+      <p class="text-xs text-zinc-500 mt-3 max-w-3xl">
+        <span class="text-zinc-300 font-semibold">Columns:</span>
+        Pre = CAR over [T-A-5, T-A-1] · Main (M) = CAR over [T-A, T-E-1] under the market model · Main (S) = same window under sector-matched controls · Post = CAR over [T-E, T-E+5]. Click any row for the per-event cumulative-CAR step chart with both models overlaid. The "—" placeholders mark events where AR estimation failed (insufficient pre-event data or sector match unavailable — see tracker logs).
+      </p>
     </section>
 
     <section class="bg-zinc-900 border border-zinc-800 rounded p-4 opacity-60">
