@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>format — tests</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-zinc-950 text-zinc-100 font-sans">
+  <main class="max-w-5xl mx-auto p-6 space-y-4">
+    <h1 class="text-2xl font-bold">format — tests</h1>
+    <section id="summary" class="font-mono text-sm"></section>
+    <table class="w-full text-sm font-mono">
+      <thead class="text-zinc-400 border-b border-zinc-800">
+        <tr>
+          <th class="text-left py-2">Function</th>
+          <th class="text-left">Input</th>
+          <th class="text-left">Got</th>
+          <th class="text-left">Expected</th>
+          <th class="text-center">PASS</th>
+        </tr>
+      </thead>
+      <tbody id="results"></tbody>
+    </table>
+  </main>
+
+  <script type="module">
+    import { fmtBps, fmtBpsDirect, fmtDate, fmtInt, fmtPct, fmtTimestamp, fmtUsd }
+      from "../js/utils/format.js";
+
+    const results = document.getElementById("results");
+    const summary = document.getElementById("summary");
+    let passed = 0, failed = 0;
+
+    function check(fn, input, got, expected) {
+      const ok = got === expected;
+      ok ? passed++ : failed++;
+      const tr = document.createElement("tr");
+      tr.className = "border-b border-zinc-900";
+      tr.innerHTML = `
+        <td class="py-1.5 text-zinc-300">${fn}</td>
+        <td class="text-zinc-400">${input}</td>
+        <td class="text-zinc-200">${got}</td>
+        <td class="text-zinc-500">${expected}</td>
+        <td class="text-center ${ok ? "text-teal-400" : "text-rose-500 font-bold"}">${ok ? "PASS" : "FAIL"}</td>
+      `;
+      results.appendChild(tr);
+    }
+
+    // fmtPct
+    check("fmtPct", "0.0125", fmtPct(0.0125), "+1.25%");
+    check("fmtPct", "-0.012", fmtPct(-0.012), "-1.20%");
+    check("fmtPct", "0", fmtPct(0), "+0.00%");
+    check("fmtPct", "NaN", fmtPct(NaN), "—");
+    check("fmtPct", "0.123 (digits=1)", fmtPct(0.123, 1), "+12.3%");
+
+    // fmtBps
+    check("fmtBps", "0.0001", fmtBps(0.0001), "1.0 bps");
+    check("fmtBps", "0.005", fmtBps(0.005), "50.0 bps");
+    check("fmtBps", "NaN", fmtBps(NaN), "—");
+
+    // fmtBpsDirect (already in bps)
+    check("fmtBpsDirect", "120.5", fmtBpsDirect(120.5), "120.5 bps");
+    check("fmtBpsDirect", "0", fmtBpsDirect(0), "0.0 bps");
+
+    // fmtUsd
+    check("fmtUsd", "1500", fmtUsd(1500), "$1.50K");
+    check("fmtUsd", "2.5e6", fmtUsd(2_500_000), "$2.50M");
+    check("fmtUsd", "1.2e9", fmtUsd(1_200_000_000), "$1.20B");
+    check("fmtUsd", "6.5e12", fmtUsd(6.5e12), "$6.50T");
+    check("fmtUsd", "-500", fmtUsd(-500), "-$500.00");
+    check("fmtUsd", "NaN", fmtUsd(NaN), "—");
+
+    // fmtInt
+    check("fmtInt", "1234", fmtInt(1234), "1,234");
+    check("fmtInt", "1234567", fmtInt(1234567), "1,234,567");
+    check("fmtInt", "NaN", fmtInt(NaN), "—");
+
+    // fmtDate
+    check("fmtDate", "2026-05-05T00:00:00Z", fmtDate("2026-05-05T00:00:00Z"), "2026-05-05");
+    check("fmtDate", "2026-05-05", fmtDate("2026-05-05"), "2026-05-05");
+    check("fmtDate", "empty", fmtDate(""), "—");
+
+    // fmtTimestamp
+    check("fmtTimestamp", "ISO", fmtTimestamp("2026-05-05T09:04:23.831660"), "2026-05-05 09:04 UTC");
+
+    summary.innerHTML = `
+      <span class="${failed === 0 ? "text-teal-400" : "text-rose-500"} text-base font-bold">
+        ${failed === 0 ? "ALL " : ""}${passed} passed${failed ? `, ${failed} FAILED` : ""}
+      </span>
+      <span class="text-zinc-500"> (${passed + failed} total)</span>
+    `;
+  </script>
+</body>
+</html>

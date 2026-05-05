@@ -1,0 +1,16 @@
+{
+  "schema_version": "0.1.0",
+  "passive_aum_usd": 6500000000000.0,
+  "market_model_estimation_window_days": 250,
+  "market_model_gap_days": 30,
+  "sector_match_pool_size": 5,
+  "decay_cohort_grouping": "yearly",
+  "sources": {
+    "BrownWarner1985": "https://doi.org/10.1016/0304-405X(85)90042-X",
+    "Petajisto2011": "https://doi.org/10.1016/j.jempfin.2010.10.002",
+    "CorwinSchultz2012": "https://doi.org/10.1111/j.1540-6261.2012.01729.x",
+    "Amihud2002": "https://doi.org/10.1016/S1386-4181(01)00024-6",
+    "AlmgrenEtAl2005": "https://www.courant.nyu.edu/~almgren/papers/costestim.pdf",
+    "Perold1988": "https://doi.org/10.3905/jpm.1988.409150"
+  }
+}

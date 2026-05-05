@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Index Rebalance Dashboard — SP500 + MSCI Singapore</title>
+  <meta name="description" content="Event-study, liquidity, and TCA analytics for SP500 and MSCI Singapore index rebalances. Browser-only, no backend, real free-data." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+
+  <link rel="preconnect" href="https://cdn.plot.ly" crossorigin />
+  <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin />
+  <link rel="dns-prefetch" href="https://raw.githubusercontent.com" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8" defer></script>
+
+  <style>
+    .skel {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #52525b;
+      font-family: ui-monospace, "SF Mono", monospace;
+      font-size: 0.875rem;
+    }
+  </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 font-sans">
+
+  <header id="header" class="border-b border-zinc-800 bg-zinc-950 sticky top-0 z-10"></header>
+
+  <main class="max-w-7xl mx-auto p-6 space-y-6">
+
+    <!-- Summary strip -->
+    <section id="summary-strip">
+      <div class="bg-zinc-900 border border-zinc-800 rounded p-4">
+        <div class="skel">loading summary…</div>
+      </div>
+    </section>
+
+    <!-- Decay chart (HEADLINE) -->
+    <section class="bg-zinc-900 border border-zinc-800 rounded p-4">
+      <div class="flex items-baseline justify-between mb-2">
+        <h2 class="text-lg font-semibold">Index-Effect Decay</h2>
+        <span class="text-xs text-zinc-500 font-mono">[T-A, T-E-1] window · market model · year cohorts</span>
+      </div>
+      <div id="decay-chart" class="h-[28rem]"><div class="skel">loading decay cohorts…</div></div>
+      <p class="text-xs text-zinc-500 mt-3 max-w-3xl">
+        <span class="text-zinc-300 font-semibold">What this shows:</span>
+        Mean cumulative abnormal return (CAR) of S&P 500 additions, by year cohort. The dotted yellow line marks Petajisto's (2011) 8.8% premium for the 1990–2005 sample. The teal band shows the inter-quartile range. <span class="text-zinc-300">If recent cohort means hover near the zero line, that IS the finding</span> — the index effect that motivated this entire literature has compressed materially.
+      </p>
+    </section>
+
+    <!-- Future-phase placeholders so the layout is visible end-to-end -->
+    <section class="bg-zinc-900 border border-zinc-800 rounded p-4 opacity-60">
+      <h2 class="text-lg font-semibold mb-2">Event-study CAR over time <span class="text-xs text-zinc-500 font-mono">(Step 2)</span></h2>
+      <div class="h-72 skel">market-model + sector-matched AR · ±1 SE shading · lands next commit</div>
+    </section>
+
+    <section class="bg-zinc-900 border border-zinc-800 rounded p-4 opacity-60">
+      <h2 class="text-lg font-semibold mb-2">Per-event table <span class="text-xs text-zinc-500 font-mono">(Step 3)</span></h2>
+      <div class="h-40 skel">searchable + sortable · click row to expand</div>
+    </section>
+
+    <section class="bg-zinc-900 border border-zinc-800 rounded p-4 opacity-60">
+      <h2 class="text-lg font-semibold mb-2">Liquidity & TCA <span class="text-xs text-zinc-500 font-mono">(Step 4)</span></h2>
+      <div class="h-40 skel">ADV log-scale · CS spread · IS distribution histograms</div>
+    </section>
+
+    <section class="bg-zinc-900 border border-zinc-800 rounded p-4 opacity-60">
+      <h2 class="text-lg font-semibold mb-2">Upcoming announcements <span class="text-xs text-zinc-500 font-mono">(Step 5)</span></h2>
+      <div class="h-40 skel">card grid with countdown · est. demand tooltip</div>
+    </section>
+
+  </main>
+
+  <footer class="max-w-7xl mx-auto p-6 text-zinc-500 text-xs space-y-1 border-t border-zinc-800 mt-12">
+    <p>
+      Browser-only · no backend · vanilla ES2022 modules · all math computed locally or pre-aggregated by the
+      <a class="underline hover:text-zinc-300" href="https://github.com/QuantMaverick/index-rebalance-tracker">tracker</a>.
+    </p>
+    <p>
+      <a class="underline hover:text-zinc-300" href="https://github.com/QuantMaverick/index-rebalance-dashboard">Source</a>
+      &nbsp;·&nbsp;
+      <a class="underline hover:text-zinc-300" href="docs/methodology.html">Methodology</a>
+      &nbsp;·&nbsp;
+      <a class="underline hover:text-zinc-300" href="tests/test_data_loader.html">Loader tests</a>
+      &nbsp;·&nbsp;
+      <a class="underline hover:text-zinc-300" href="tests/test_format.html">Format tests</a>
+      &nbsp;·&nbsp;
+      <a class="underline hover:text-zinc-300" href="tests/test_stats.html">Stats tests</a>
+    </p>
+    <p class="text-zinc-600">
+      Daily OHLCV proxies only. Historical events from Wikipedia "Selected changes." Methodology page documents every limit explicitly.
+    </p>
+  </footer>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

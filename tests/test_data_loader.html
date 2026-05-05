@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>data_loader — tests</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-zinc-950 text-zinc-100 font-sans">
+  <main class="max-w-5xl mx-auto p-6 space-y-4">
+    <h1 class="text-2xl font-bold">data_loader — schema validation tests</h1>
+    <section id="summary" class="font-mono text-sm"></section>
+    <table class="w-full text-sm font-mono">
+      <thead class="text-zinc-400 border-b border-zinc-800">
+        <tr>
+          <th class="text-left py-2">Case</th>
+          <th class="text-left">Expectation</th>
+          <th class="text-center">PASS</th>
+          <th class="text-left">Detail</th>
+        </tr>
+      </thead>
+      <tbody id="results"></tbody>
+    </table>
+  </main>
+
+  <script type="module">
+    import {
+      validateDecayFile,
+      validateEventsFile,
+      validateMethodologyConstants,
+      validateTcaSummaryFile,
+      validateUpcomingFile,
+    } from "../js/data_loader.js";
+
+    const results = document.getElementById("results");
+    const summary = document.getElementById("summary");
+    let passed = 0, failed = 0;
+
+    function check(caseName, expectation, fn) {
+      let ok = false, detail = "";
+      try { fn(); ok = true; } catch (e) { detail = `${e.name}: ${e.message}`; }
+      ok ? passed++ : failed++;
+      const tr = document.createElement("tr");
+      tr.className = "border-b border-zinc-900";
+      tr.innerHTML = `
+        <td class="py-1.5 text-zinc-300">${caseName}</td>
+        <td class="text-zinc-400">${expectation}</td>
+        <td class="text-center ${ok ? "text-teal-400" : "text-rose-500 font-bold"}">${ok ? "PASS" : "FAIL"}</td>
+        <td class="text-zinc-500">${detail}</td>
+      `;
+      results.appendChild(tr);
+    }
+
+    function expectThrows(fn, name) {
+      try { fn(); throw new Error("did not throw"); }
+      catch (e) {
+        if (e.name !== name) throw new Error(`expected ${name}, got ${e.name}`);
+      }
+    }
+
+    // ── Valid happy paths ─────────────────────────────────────────────────
+    const validDecay = {
+      schema_version: "0.1.0", as_of: "2026-05-05T00:00:00", index: "sp500",
+      grouping: "yearly", window_label: "[T-A, T-E-1]", model_used: "market",
+      action: "add", cohorts: [],
+    };
+    check("DecayFile valid empty cohorts", "passes", () => validateDecayFile(validDecay));
+
+    check("DecayFile valid with one cohort", "passes", () =>
+      validateDecayFile({ ...validDecay, cohorts: [
+        { cohort: "2020", n_events: 5, mean_car: 0.01, median_car: 0.01,
+          car_p25: 0, car_p75: 0.02 }
+      ]})
+    );
+
+    const validEvents = {
+      schema_version: "0.1.0", as_of: "2026-05-05T00:00:00",
+      index: "sp500", events: [],
+    };
+    check("EventsFile valid empty", "passes", () => validateEventsFile(validEvents));
+
+    check("EventsFile valid with one event", "passes", () =>
+      validateEventsFile({ ...validEvents, events: [{
+        event: { event_id: "x", ticker: "AAPL", action: "add",
+                 effective_date: "2020-01-01", index: "sp500" },
+        car_observations: [],
+      }]})
+    );
+
+    check("UpcomingEventsFile valid empty", "passes", () =>
+      validateUpcomingFile({ schema_version: "0.1.0", as_of: "2026-05-05T00:00:00", events: [] })
+    );
+
+    check("TCASummaryFile valid empty", "passes", () =>
+      validateTcaSummaryFile({
+        schema_version: "0.1.0", as_of: "2026-05-05T00:00:00",
+        index: "sp500", passive_aum_usd: 6.5e12, annual: [],
+      })
+    );
+
+    check("MethodologyConstants valid", "passes", () =>
+      validateMethodologyConstants({
+        schema_version: "0.1.0", passive_aum_usd: 6.5e12,
+        market_model_estimation_window_days: 250,
+      })
+    );
+
+    // ── Failure paths ─────────────────────────────────────────────────────
+    check("Missing key throws SchemaError", "throws", () =>
+      expectThrows(() => validateDecayFile({ schema_version: "0.1.0" }), "SchemaError")
+    );
+
+    check("Non-array cohorts throws", "throws", () =>
+      expectThrows(() => validateDecayFile({ ...validDecay, cohorts: "not-an-array" }), "SchemaError")
+    );
+
+    check("Missing nested key throws", "throws", () =>
+      expectThrows(() => validateDecayFile({ ...validDecay, cohorts: [{ cohort: "2020" }] }), "SchemaError")
+    );
+
+    check("Null input throws SchemaError", "throws", () =>
+      expectThrows(() => validateDecayFile(null), "SchemaError")
+    );
+
+    check("Array input throws SchemaError", "throws", () =>
+      expectThrows(() => validateDecayFile([]), "SchemaError")
+    );
+
+    summary.innerHTML = `
+      <span class="${failed === 0 ? "text-teal-400" : "text-rose-500"} text-base font-bold">
+        ${failed === 0 ? "ALL " : ""}${passed} passed${failed ? `, ${failed} FAILED` : ""}
+      </span>
+      <span class="text-zinc-500"> (${passed + failed} total)</span>
+    `;
+  </script>
+</body>
+</html>

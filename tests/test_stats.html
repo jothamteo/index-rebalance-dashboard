@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>stats — tests</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-zinc-950 text-zinc-100 font-sans">
+  <main class="max-w-5xl mx-auto p-6 space-y-4">
+    <h1 class="text-2xl font-bold">stats — tests</h1>
+    <section id="summary" class="font-mono text-sm"></section>
+    <table class="w-full text-sm font-mono">
+      <thead class="text-zinc-400 border-b border-zinc-800">
+        <tr>
+          <th class="text-left py-2">Case</th>
+          <th class="text-right">Got</th>
+          <th class="text-right">Expected</th>
+          <th class="text-right">|Δ|</th>
+          <th class="text-right">Tol</th>
+          <th class="text-center">PASS</th>
+        </tr>
+      </thead>
+      <tbody id="results"></tbody>
+    </table>
+  </main>
+
+  <script type="module">
+    import { groupBy, mean, median, percentile, sem, stdev } from "../js/utils/stats.js";
+
+    const results = document.getElementById("results");
+    const summary = document.getElementById("summary");
+    let passed = 0, failed = 0;
+
+    function check(name, got, expected, tol = 1e-9) {
+      const ok = Number.isNaN(expected)
+        ? Number.isNaN(got)
+        : Math.abs(got - expected) <= tol;
+      ok ? passed++ : failed++;
+      const tr = document.createElement("tr");
+      tr.className = "border-b border-zinc-900";
+      tr.innerHTML = `
+        <td class="py-1.5 text-zinc-300">${name}</td>
+        <td class="text-right">${got.toExponential ? got.toExponential(4) : got}</td>
+        <td class="text-right">${expected.toExponential ? expected.toExponential(4) : expected}</td>
+        <td class="text-right text-zinc-500">${(Number.isNaN(expected) ? 0 : Math.abs(got - expected)).toExponential(2)}</td>
+        <td class="text-right text-zinc-500">${tol.toExponential(0)}</td>
+        <td class="text-center ${ok ? "text-teal-400" : "text-rose-500 font-bold"}">${ok ? "PASS" : "FAIL"}</td>
+      `;
+      results.appendChild(tr);
+    }
+
+    // mean
+    check("mean [1,2,3,4]", mean([1, 2, 3, 4]), 2.5);
+    check("mean [10]", mean([10]), 10);
+    check("mean []", mean([]), NaN);
+
+    // stdev (n-1)
+    // [2,4,4,4,5,5,7,9] → mean=5, variance = (9+1+1+1+0+0+4+16)/7 = 32/7 ≈ 4.5714, sd = 2.138
+    check("stdev classic", stdev([2, 4, 4, 4, 5, 5, 7, 9]), 2.138089935299395, 1e-9);
+    check("stdev n=1 → NaN", stdev([5]), NaN);
+
+    // sem
+    check("sem [2,4,4,4,5,5,7,9]", sem([2, 4, 4, 4, 5, 5, 7, 9]),
+          2.138089935299395 / Math.sqrt(8), 1e-9);
+
+    // percentile (linear interpolation, type 7)
+    check("percentile p=0.5 of [1,2,3,4]", percentile([1, 2, 3, 4], 0.5), 2.5);
+    check("percentile p=0 of [1,2,3,4]", percentile([1, 2, 3, 4], 0), 1);
+    check("percentile p=1 of [1,2,3,4]", percentile([1, 2, 3, 4], 1), 4);
+    check("percentile p=0.25 of [1,2,3,4]", percentile([1, 2, 3, 4], 0.25), 1.75);
+    check("percentile p=0.75 of [1,2,3,4]", percentile([1, 2, 3, 4], 0.75), 3.25);
+    check("percentile out-of-range → NaN", percentile([1, 2, 3], 1.5), NaN);
+
+    // median
+    check("median odd", median([1, 2, 3]), 2);
+    check("median even", median([1, 2, 3, 4]), 2.5);
+    check("median single", median([5]), 5);
+
+    // groupBy
+    const groupResult = groupBy(
+      [{ a: 1, b: "x" }, { a: 2, b: "x" }, { a: 3, b: "y" }],
+      (r) => r.b,
+    );
+    const xCount = groupResult.get("x")?.length ?? 0;
+    const yCount = groupResult.get("y")?.length ?? 0;
+    check("groupBy 'x' count", xCount, 2, 0);
+    check("groupBy 'y' count", yCount, 1, 0);
+    check("groupBy distinct keys", groupResult.size, 2, 0);
+
+    summary.innerHTML = `
+      <span class="${failed === 0 ? "text-teal-400" : "text-rose-500"} text-base font-bold">
+        ${failed === 0 ? "ALL " : ""}${passed} passed${failed ? `, ${failed} FAILED` : ""}
+      </span>
+      <span class="text-zinc-500"> (${passed + failed} total)</span>
+    `;
+  </script>
+</body>
+</html>

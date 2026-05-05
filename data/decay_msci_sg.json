@@ -1,0 +1,10 @@
+{
+  "schema_version": "0.1.0",
+  "as_of": "2026-05-05T09:04:23.831660",
+  "index": "msci_sg",
+  "grouping": "yearly",
+  "window_label": "[T-A, T-E-1]",
+  "model_used": "market",
+  "action": "add",
+  "cohorts": []
+}

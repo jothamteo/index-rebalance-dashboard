@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify HTML files exist + are non-empty
+        run: |
+          for f in index.html docs/methodology.html tests/test_data_loader.html tests/test_format.html tests/test_stats.html; do
+            if [ -f "$f" ]; then
+              size=$(wc -c < "$f")
+              if [ "$size" -lt 100 ]; then
+                echo "::error::$f exists but is suspiciously small ($size bytes)"
+                exit 1
+              fi
+              echo "  ✓ $f ($size bytes)"
+            fi
+          done
+
+      - name: Verify JSON contracts parse
+        run: |
+          for f in data/*.json; do
+            python3 -c "import json; json.load(open('$f'))" || exit 1
+            echo "  ✓ $f"
+          done
+
+      - name: Smoke-check JS module syntax
+        run: |
+          for f in $(find js -name "*.js"); do
+            node --check "$f" || exit 1
+          done
+          echo "all js modules parse"
+
+      - name: Verify schema versions match across data files
+        run: |
+          python3 -c "
+          import json, glob
+          versions = {}
+          for f in glob.glob('data/*.json'):
+              data = json.load(open(f))
+              if 'schema_version' in data:
+                  versions[f] = data['schema_version']
+          unique = set(versions.values())
+          if len(unique) > 1:
+              print('::error::schema version mismatch:', versions)
+              exit(1)
+          print('all data files share schema_version:', unique)
+          "

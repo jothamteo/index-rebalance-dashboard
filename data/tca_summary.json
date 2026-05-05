@@ -1,0 +1,144 @@
+{
+  "schema_version": "0.1.0",
+  "as_of": "2026-05-05T09:04:23.832248",
+  "index": "sp500",
+  "passive_aum_usd": 6500000000000.0,
+  "annual": [
+    {
+      "year": 2010,
+      "n_events": 12,
+      "total_demand_usd": 72722111668.3063,
+      "mean_forced_bps": 2189.2426052095198,
+      "mean_spread_bps": 979.0590568974441,
+      "mean_savings_bps": 1210.1835483120756
+    },
+    {
+      "year": 2011,
+      "n_events": 22,
+      "total_demand_usd": 73274765708.08054,
+      "mean_forced_bps": 8769437.95141422,
+      "mean_spread_bps": 3921811.8767657382,
+      "mean_savings_bps": 4847626.074648481
+    },
+    {
+      "year": 2012,
+      "n_events": 24,
+      "total_demand_usd": 112642587089.21136,
+      "mean_forced_bps": 8038485.892307527,
+      "mean_spread_bps": 3594920.1782745365,
+      "mean_savings_bps": 4443565.714032992
+    },
+    {
+      "year": 2013,
+      "n_events": 23,
+      "total_demand_usd": 216345112296.66907,
+      "mean_forced_bps": 5421.9973809295925,
+      "mean_spread_bps": 2424.790943516878,
+      "mean_savings_bps": 2997.2064374127144
+    },
+    {
+      "year": 2014,
+      "n_events": 19,
+      "total_demand_usd": 267003602810.09564,
+      "mean_forced_bps": 1005.1514211636585,
+      "mean_spread_bps": 449.51738108049216,
+      "mean_savings_bps": 555.6340400831662
+    },
+    {
+      "year": 2015,
+      "n_events": 27,
+      "total_demand_usd": 148413377270.48755,
+      "mean_forced_bps": 857.5182622025653,
+      "mean_spread_bps": 383.49382524648496,
+      "mean_savings_bps": 474.0244369560804
+    },
+    {
+      "year": 2016,
+      "n_events": 38,
+      "total_demand_usd": 251433543864.0738,
+      "mean_forced_bps": 968.6811830496341,
+      "mean_spread_bps": 433.20739476477974,
+      "mean_savings_bps": 535.4737882848542
+    },
+    {
+      "year": 2017,
+      "n_events": 38,
+      "total_demand_usd": 566478594446.3616,
+      "mean_forced_bps": 934.0897904967286,
+      "mean_spread_bps": 417.73765372784436,
+      "mean_savings_bps": 516.3521367688842
+    },
+    {
+      "year": 2018,
+      "n_events": 29,
+      "total_demand_usd": 101266398001.29915,
+      "mean_forced_bps": 889.0116252673042,
+      "mean_spread_bps": 397.57808537705245,
+      "mean_savings_bps": 491.4335398902518
+    },
+    {
+      "year": 2019,
+      "n_events": 40,
+      "total_demand_usd": 124891411003.85052,
+      "mean_forced_bps": 894.0783183516381,
+      "mean_spread_bps": 399.8439794085921,
+      "mean_savings_bps": 494.234338943046
+    },
+    {
+      "year": 2020,
+      "n_events": 24,
+      "total_demand_usd": 367579255618.4653,
+      "mean_forced_bps": 924.473185871816,
+      "mean_spread_bps": 413.43697739703583,
+      "mean_savings_bps": 511.0362084747803
+    },
+    {
+      "year": 2021,
+      "n_events": 28,
+      "total_demand_usd": 62926909171.99811,
+      "mean_forced_bps": 1220.1208990004427,
+      "mean_spread_bps": 545.6546541866289,
+      "mean_savings_bps": 674.4662448138137
+    },
+    {
+      "year": 2022,
+      "n_events": 24,
+      "total_demand_usd": 78849368717.90646,
+      "mean_forced_bps": 934.0244028871679,
+      "mean_spread_bps": 417.70841149987154,
+      "mean_savings_bps": 516.3159913872963
+    },
+    {
+      "year": 2023,
+      "n_events": 26,
+      "total_demand_usd": 113647502742.42758,
+      "mean_forced_bps": 1099.6004933309503,
+      "mean_spread_bps": 491.7562902360618,
+      "mean_savings_bps": 607.8442030948885
+    },
+    {
+      "year": 2024,
+      "n_events": 28,
+      "total_demand_usd": 239193048743.5205,
+      "mean_forced_bps": 1101.0174637447853,
+      "mean_spread_bps": 492.38997866954986,
+      "mean_savings_bps": 608.6274850752352
+    },
+    {
+      "year": 2025,
+      "n_events": 31,
+      "total_demand_usd": 363411746023.4972,
+      "mean_forced_bps": 1209.4939151340777,
+      "mean_spread_bps": 540.9021225224317,
+      "mean_savings_bps": 668.5917926116455
+    },
+    {
+      "year": 2026,
+      "n_events": 11,
+      "total_demand_usd": 150646482956.6632,
+      "mean_forced_bps": 1224.7413844737368,
+      "mean_spread_bps": 547.7209981080962,
+      "mean_savings_bps": 677.0203863656407
+    }
+  ]
+}
