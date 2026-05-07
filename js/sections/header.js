@@ -42,11 +42,11 @@ export function render(containerId, data) {
       <span class="font-mono text-xs text-zinc-400" title="Snapshot timestamp from the tracker output">
         as of ${fmtTimestamp(data.asOf)}
       </span>
-      <a href="https://github.com/QuantMaverick/index-rebalance-dashboard"
+      <a href="https://github.com/jothamteo/index-rebalance-dashboard"
          class="text-zinc-400 hover:text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 rounded">
         GitHub
       </a>
-      <a href="https://github.com/QuantMaverick/index-rebalance-tracker"
+      <a href="https://github.com/jothamteo/index-rebalance-tracker"
          class="text-zinc-400 hover:text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 rounded">
         Tracker
       </a>

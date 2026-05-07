@@ -35,7 +35,7 @@ export function render(containerId, data) {
         <div class="text-zinc-300 text-base font-mono mb-2">No upcoming events</div>
         <div class="text-zinc-500 text-xs max-w-xl mx-auto">
           Empty between announcement cycles is normal. S&P quarterly reviews land in March / June / September / December; MSCI in February / May / August / November. The
-          <a class="underline hover:text-zinc-300" href="https://github.com/QuantMaverick/index-rebalance-tracker">tracker's</a>
+          <a class="underline hover:text-zinc-300" href="https://github.com/jothamteo/index-rebalance-tracker">tracker's</a>
           <code class="text-teal-400">monitor</code> command repopulates this file when run on cron.
         </div>
       </div>

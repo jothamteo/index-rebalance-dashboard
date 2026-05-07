@@ -1,6 +1,6 @@
 # Index Rebalance Dashboard
 
-Browser-only dashboard consuming JSON output from [index-rebalance-tracker](https://github.com/QuantMaverick/index-rebalance-tracker). Event-study, liquidity, and TCA analytics for **S&P 500** and **MSCI Singapore Free** index rebalances. No backend, no build step, vanilla ES2022.
+Browser-only dashboard consuming JSON output from [index-rebalance-tracker](https://github.com/jothamteo/index-rebalance-tracker). Event-study, liquidity, and TCA analytics for **S&P 500** and **MSCI Singapore Free** index rebalances. No backend, no build step, vanilla ES2022.
 
 **🔗 Live demo:** _populated when GitHub Pages activates after first push._
 
@@ -21,7 +21,7 @@ This is the central honest claim of the dashboard. The decay isn't a future risk
 
 ## What this is
 
-Phase 2 companion to [index-rebalance-tracker](https://github.com/QuantMaverick/index-rebalance-tracker). The tracker (Python) runs the analysis end-to-end and writes 4 JSON files to `output/`. This project (browser-only HTML+JS) consumes those JSON files and renders six sections plus a methodology page.
+Phase 2 companion to [index-rebalance-tracker](https://github.com/jothamteo/index-rebalance-tracker). The tracker (Python) runs the analysis end-to-end and writes 4 JSON files to `output/`. This project (browser-only HTML+JS) consumes those JSON files and renders six sections plus a methodology page.
 
 ```
 Phase 1 (Python tracker)         Phase 2 (this dashboard)
@@ -56,12 +56,12 @@ The dashboard's job is to show this honestly, not to manufacture a clean narrati
 
 Default mode: `data/*.json` is checked into this repo. GitHub Pages serves the static site. Snapshot is whatever the tracker emitted at last commit.
 
-Live mode: append `#live` to the URL. The dashboard fetches JSON from `https://raw.githubusercontent.com/QuantMaverick/index-rebalance-tracker/main/output/` instead. Works only after the tracker repo has its `output/` directory populated and pushed.
+Live mode: append `#live` to the URL. The dashboard fetches JSON from `https://raw.githubusercontent.com/jothamteo/index-rebalance-tracker/main/output/` instead. Works only after the tracker repo has its `output/` directory populated and pushed.
 
 ## Quickstart
 
 ```bash
-git clone https://github.com/QuantMaverick/index-rebalance-dashboard
+git clone https://github.com/jothamteo/index-rebalance-dashboard
 cd index-rebalance-dashboard
 python3 -m http.server 8080
 open http://localhost:8080/
@@ -117,4 +117,4 @@ MIT — see [LICENSE](LICENSE).
 
 ## Contact
 
-QuantMaverick — [github.com/QuantMaverick](https://github.com/QuantMaverick)
+jothamteo — [github.com/jothamteo](https://github.com/jothamteo)

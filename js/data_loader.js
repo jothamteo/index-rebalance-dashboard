@@ -17,7 +17,7 @@
  */
 
 const TRACKER_RAW_BASE =
-  "https://raw.githubusercontent.com/QuantMaverick/index-rebalance-tracker/main/output";
+  "https://raw.githubusercontent.com/jothamteo/index-rebalance-tracker/main/output";
 
 /** @typedef {"sp500" | "msci_sg"} IndexName */
 
